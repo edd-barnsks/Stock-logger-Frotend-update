@@ -287,7 +287,7 @@ function switchTab(active: 'cashier' | 'admin', updateHash = true) {
 tabs.cashier.btn?.addEventListener('click', () => switchTab('cashier'));
 tabs.admin.btn?.addEventListener('click', () => switchTab('admin'));
 function restoreSelectedTab() {
-  switchTab(window.location.hash === '#admin' ? 'admin' : 'cashier', false);
+  switchTab(window.location.hash === '#cashier' ? 'cashier' : 'admin', false);
 }
 restoreSelectedTab();
 window.addEventListener('hashchange', restoreSelectedTab);

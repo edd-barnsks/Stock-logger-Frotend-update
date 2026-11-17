@@ -18,7 +18,7 @@
       --line: #d4d0cb;
       --text: #1a1a1a;
       --text-secondary: #4a4a4a;
-      --muted: #8a8a8a;
+      --muted: #68645f;
       --out: #c43e2a;
       --mono: 'Space Mono', 'IBM Plex Mono', 'Courier New', monospace;
     }
@@ -34,6 +34,8 @@
       background: var(--bg);
       color: var(--text);
       font-family: var(--mono);
+      font-size: 0.8125rem;
+      line-height: 1.5;
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -159,7 +161,7 @@ body {
       margin-bottom: 12px;
     }
     .loading-label {
-      font: 400 11px var(--mono);
+      font: 400 0.6875rem var(--mono);
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.1em;
@@ -203,14 +205,14 @@ body {
     }
 
     .auth-title {
-      font: 700 14px var(--mono);
+      font: 700 0.875rem var(--mono);
       text-align: center;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       margin-bottom: 4px;
     }
     .auth-subtitle {
-      font: 400 11px var(--mono);
+      font: 400 0.6875rem var(--mono);
       text-align: center;
       color: var(--muted);
       letter-spacing: 0.06em;
@@ -227,7 +229,7 @@ body {
     .tab-btn {
       flex: 1;
       padding: 11px;
-      font: 600 11px var(--mono);
+      font: 600 0.6875rem var(--mono);
       letter-spacing: 0.1em;
       text-transform: uppercase;
       background: transparent;
@@ -248,7 +250,7 @@ body {
     }
     .form-label {
       display: block;
-      font: 600 10px var(--mono);
+      font: 600 0.625rem var(--mono);
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.1em;
@@ -272,7 +274,7 @@ body {
       border: 1px solid var(--line);
       color: var(--text);
       padding: 11px 12px 11px 38px;
-      font: 400 13px var(--mono);
+      font: 400 0.8125rem var(--mono);
       transition: border-color 0.2s, box-shadow 0.2s;
       outline: none;
     }
@@ -284,7 +286,7 @@ body {
 
     /* Error message */
     .auth-error {
-      font: 400 11px var(--mono);
+      font: 400 0.6875rem var(--mono);
       color: var(--out);
       margin-top: 12px;
       text-transform: uppercase;
@@ -300,7 +302,7 @@ body {
       background: var(--text);
       color: var(--panel);
       border: none;
-      font: 700 12px var(--mono);
+      font: 700 0.6875rem var(--mono);
       letter-spacing: 0.12em;
       text-transform: uppercase;
       cursor: pointer;
@@ -315,7 +317,7 @@ body {
       display: block;
       margin-top: 18px;
       text-align: center;
-      font: 400 11px var(--mono);
+      font: 400 0.6875rem var(--mono);
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.06em;
@@ -352,6 +354,8 @@ body {
       border: 1px solid var(--line);
       padding: 32px;
       max-width: 380px;
+      max-height: calc(100dvh - 32px);
+      overflow-y: auto;
       width: 100%;
       margin: 0 16px;
       position: relative;
@@ -386,13 +390,13 @@ body {
       color: var(--text);
     }
     .reset-title {
-      font: 700 13px var(--mono);
+      font: 700 0.8125rem var(--mono);
       letter-spacing: 0.1em;
       text-transform: uppercase;
       margin-bottom: 8px;
     }
     .reset-desc {
-      font: 400 12px var(--mono);
+      font: 400 0.6875rem var(--mono);
       color: var(--muted);
       line-height: 1.7;
       margin-bottom: 20px;
@@ -403,7 +407,7 @@ body {
       border: 1px solid var(--line);
       color: var(--text);
       padding: 11px 12px;
-      font: 400 13px var(--mono);
+      font: 400 0.8125rem var(--mono);
       margin-bottom: 12px;
       outline: none;
       transition: border-color 0.2s;
@@ -412,7 +416,7 @@ body {
     .reset-input::placeholder { color: var(--muted); }
 
     .reset-msg {
-      font: 400 11px var(--mono);
+      font: 400 0.6875rem var(--mono);
       color: var(--out);
       margin-bottom: 12px;
       display: none;
@@ -429,7 +433,7 @@ body {
       padding: 11px;
       background: transparent;
       border: 1px solid var(--line);
-      font: 500 11px var(--mono);
+      font: 500 0.6875rem var(--mono);
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--text-secondary);
@@ -442,7 +446,7 @@ body {
       padding: 11px;
       background: var(--text);
       border: none;
-      font: 600 11px var(--mono);
+      font: 600 0.6875rem var(--mono);
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--panel);
@@ -463,13 +467,13 @@ body {
       margin-bottom: 16px;
     }
     .reset-success-text {
-      font: 600 12px var(--mono);
+      font: 600 0.6875rem var(--mono);
       margin-bottom: 4px;
       text-transform: uppercase;
       letter-spacing: 0.06em;
     }
     .reset-success-info {
-      font: 400 12px var(--mono);
+      font: 400 0.6875rem var(--mono);
       color: var(--muted);
       margin-bottom: 20px;
       line-height: 1.7;
@@ -479,7 +483,7 @@ body {
       padding: 11px;
       background: var(--text);
       border: none;
-      font: 600 11px var(--mono);
+      font: 600 0.6875rem var(--mono);
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--panel);
@@ -502,7 +506,7 @@ body {
       position: fixed;
       bottom: 20px;
       right: 24px;
-      font: 400 10px var(--mono);
+      font: 400 0.625rem var(--mono);
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.1em;
@@ -550,12 +554,12 @@ body {
 
       <!-- Tab switcher -->
       <div class="tab-switcher" role="tablist">
-        <button id="tabCashier" class="tab-btn active" role="tab" aria-selected="true" aria-controls="panelCashier">Cashier</button>
-        <button id="tabAdmin" class="tab-btn" role="tab" aria-selected="false" aria-controls="panelAdmin">Admin</button>
+        <button id="tabAdmin" class="tab-btn active" role="tab" aria-selected="true" aria-controls="panelAdmin">Admin</button>
+        <button id="tabCashier" class="tab-btn" role="tab" aria-selected="false" aria-controls="panelCashier">Cashier</button>
       </div>
 
       <!-- ── Cashier Panel ── -->
-      <div id="panelCashier" role="tabpanel" aria-labelledby="tabCashier">
+      <div id="panelCashier" class="panel-hidden" role="tabpanel" aria-labelledby="tabCashier">
         <form id="employeeForm" autocomplete="off" novalidate>
           <div class="form-group">
             <div class="input-wrap">
@@ -581,7 +585,7 @@ body {
       </div>
 
       <!-- ── Admin Panel ── -->
-      <div id="panelAdmin" class="panel-hidden" role="tabpanel" aria-labelledby="tabAdmin">
+      <div id="panelAdmin" role="tabpanel" aria-labelledby="tabAdmin">
         <form id="adminForm" autocomplete="off" novalidate>
           <div class="form-group">
             <div class="input-wrap">

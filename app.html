@@ -30,7 +30,8 @@
         <span class="loading-logo-name">StockLogger</span>
       </div>
       <div class="spinner"></div>
-      <div class="loading-text">Initializing warehouse...</div>
+      <div class="logout-progress" role="progressbar" aria-label="Logging out" hidden></div>
+      <div class="loading-text" role="status" aria-live="polite">Initializing warehouse...</div>
     </div>
   </div>
 
@@ -166,8 +167,10 @@
                 <div><p class="eyebrow">CURRENT ORDER</p><h2>Payment</h2></div>
                 <button class="text-action" id="clearCart" type="button">Clear items</button>
               </div>
-              <div class="cart-table-head" aria-hidden="true"><span>Item</span><span>Qty</span><span>Price</span><span>Subtotal</span></div>
-              <div class="cart-lines" id="cartLines" aria-live="polite"></div>
+              <div class="cart-items-scroll">
+                <div class="cart-table-head" aria-hidden="true"><span>Item</span><span>Qty</span><span>Price</span><span>Subtotal</span></div>
+                <div class="cart-lines" id="cartLines" aria-live="polite"></div>
+              </div>
               <div class="cart-footer">
                 <label class="sales-field">Customer / account<input id="saleCustomer" maxlength="80" placeholder="Walk-in customer" /></label>
                 <label class="sales-field">Order reference<input id="saleReference" maxlength="60" placeholder="Optional reference" /></label>
@@ -328,9 +331,9 @@
                 <h3>Username</h3>
                 <div style="display:flex; align-items:center; gap:8px; margin-top:4px;">
                   <code id="settingUser"
-                    style="font-family:var(--mono); font-size:13px; color:var(--text);">—</code>
+                    style="font-family:var(--mono); font-size:0.8125rem; color:var(--text);">—</code>
                   <span id="settingRole"
-                    style="font-size:10px; color:var(--text); font-family:var(--mono); background:var(--accent-soft); border:1px solid var(--line); padding:2px 8px; letter-spacing:0.08em; text-transform:uppercase;"></span>
+                    style="font-size:0.625rem; color:var(--text); font-family:var(--mono); background:var(--accent-soft); border:1px solid var(--line); padding:2px 8px; letter-spacing:0.08em; text-transform:uppercase;"></span>
                 </div>
               </div>
               <button id="openChangeUsername" class="btn-outline">Change</button>
@@ -342,7 +345,7 @@
                 <h3>Password</h3>
                 <div style="display:flex; align-items:center; gap:8px; margin-top:4px;">
                   <code id="settingPassDisplay"
-                    style="font-family:var(--mono); font-size:13px; color:var(--text); letter-spacing:0.12em;">••••••••</code>
+                    style="font-family:var(--mono); font-size:0.8125rem; color:var(--text); letter-spacing:0.12em;">••••••••</code>
                   <button id="togglePassReveal" title="Show / hide password"
                     style="background:none; border:1px solid var(--line); color:var(--muted); cursor:pointer; padding:4px; display:flex; align-items:center; transition:color .2s, border-color .2s; width:28px; height:28px; justify-content:center;">
                     <svg id="eyeIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"

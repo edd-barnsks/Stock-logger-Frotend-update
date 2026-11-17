@@ -2130,17 +2130,35 @@ $('#logoutBtn')?.addEventListener('click', async () => {
   const button = $<HTMLButtonElement>('#logoutBtn');
   if (button.disabled) return;
   button.disabled = true;
+  button.textContent = 'Logging out...';
+  const overlay = $('#loadingOverlay');
+  const message = overlay?.querySelector<HTMLElement>('.loading-text');
+  const progress = overlay?.querySelector<HTMLElement>('.logout-progress');
+  const layout = $('.layout-wrapper');
+  if (message) message.textContent = 'Logging out...';
+  if (progress) progress.hidden = false;
+  overlay?.classList.add('is-signing-out');
+  overlay?.classList.remove('hidden');
+  if (layout) layout.inert = true;
+  const minimumLoadingTime = new Promise<void>((resolve) => window.setTimeout(resolve, 3000));
   try {
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
     localStorage.removeItem('wh-session');
     localStorage.removeItem('wh-users');
     localStorage.removeItem('wh-audit-logs');
+    await minimumLoadingTime;
     window.location.replace('/');
   } catch (error) {
     console.error('Supabase sign-out failed:', error);
-    alert('Unable to sign out. Please check your connection and try again.');
+    overlay?.classList.add('hidden');
+    overlay?.classList.remove('is-signing-out');
+    if (progress) progress.hidden = true;
+    if (layout) layout.inert = false;
     button.disabled = false;
+    button.textContent = 'Log out';
+    button.focus();
+    alert('Unable to sign out. Please check your connection and try again.');
   }
 });
 
