@@ -7,9 +7,6 @@ import { isAdmin } from './access';
 
 enablePasswordToggles();
 
-
-// app.ts verifies the active account and configures access before loading this module.
-
 type Item = { sku: string; name: string; qty: number; slot: number; price?: number };
 type Log = { id: number; time: string; sku: string; type: 'IN' | 'OUT'; qty: number; note: string };
 let logs: Log[] = [];
@@ -48,10 +45,8 @@ type Delivery = {
 };
 const DELIVERY_STATUSES: DeliveryStatus[] = ['Pending', 'Scheduled', 'Out for delivery', 'Delivered', 'Cancelled'];
 
-
 const COLS = 4, LEVELS = 3, SLOTS = COLS * LEVELS, LOW = 10, CAP = 200;
 const $ = <T extends HTMLElement>(s: string) => document.querySelector(s) as T;
-
 
 async function loadInventoryHistoryFromSupabase() {
   const { data, error } = await supabase
@@ -122,7 +117,6 @@ async function loadProductsFromSupabase() {
   renderUI();
 }
 
-/* ---------- state ---------- */
 const seed: Item[] = [
   { sku: 'BLT-001', name: 'Hex bolts M8', qty: 120, slot: 0 },
   { sku: 'PLT-014', name: 'Pallet wrap', qty: 45, slot: 1 },
@@ -131,10 +125,9 @@ const seed: Item[] = [
 function load<T>(key: string, fallback: T): T {
   try { return JSON.parse(localStorage.getItem(key) ?? '') as T; } catch { return fallback; }
 }
-// User management reads verified Supabase profiles, never demo passwords.
+
 let users: User[] = [];
 let items: Item[] = load('wh-items', seed);
-
 
 async function loadSalesFromSupabase() {
   const { data: saleRows, error: salesError } = await supabase
@@ -164,7 +157,7 @@ async function loadSalesFromSupabase() {
     console.error('Failed to load sale items from Supabase:', itemsError);
     return;
   }
-  
+
   const returnedBySaleItemId = new Map<string, number>();
 
 if (itemRows && itemRows.length > 0) {
@@ -233,7 +226,6 @@ if (itemRows && itemRows.length > 0) {
 
   renderUI();
 }
-
 
 async function loadReturnsFromSupabase() {
   const { data: returnRows, error: returnsError } = await supabase
@@ -327,7 +319,6 @@ async function loadReturnsFromSupabase() {
   renderUI();
 }
 
-
 async function loadSuppliersFromSupabase() {
   const { data, error } = await supabase
     .from('suppliers')
@@ -355,7 +346,6 @@ async function loadSuppliersFromSupabase() {
 
   renderSuppliers();
 }
-
 
 async function loadCategoriesFromSupabase() {
   const { data, error } = await supabase
@@ -489,7 +479,6 @@ function recordAudit(module: string, action: string, description: string, handle
     renderAuditLogs();
   }
 
-  // Save a copy to Supabase in the background.
   void (async () => {
     try {
       const { data } = await supabase.auth.getSession();
@@ -507,7 +496,6 @@ function recordAudit(module: string, action: string, description: string, handle
   })();
 }
 
-/* ---------- 3D scene ---------- */
 const host = $<HTMLDivElement>('#scene');
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setPixelRatio(Math.min(Math.max(window.devicePixelRatio || 1, 2), 3));
@@ -646,7 +634,6 @@ const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   renderer.render(scene, camera);
 })();
 
-/* ---------- UI ---------- */
 const msg = $<HTMLParagraphElement>('#msg');
 const say = (t: string, ok = false) => { msg.textContent = t; msg.className = 'msg ' + (ok ? 'ok' : 'err'); };
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
@@ -675,7 +662,6 @@ function renderUI() {
   renderAuditLogs();
 }
 
-/* ---------- Deliveries (linked to supply orders or entered manually) ---------- */
 async function loadDeliveriesFromSupabase() {
   const { data, error } = await supabase.from('deliveries').select('*').order('created_at', { ascending: false });
   if (error) {
@@ -788,7 +774,6 @@ $<HTMLFormElement>('#deliveryForm')?.addEventListener('submit', async (event) =>
   } finally { button.disabled = false; }
 });
 
-/* ---------- Inventory catalog (matches POS cards, read-only) ---------- */
 let inventoryMode: 'movement' | 'products' = 'movement';
 function renderInventoryProducts() {
   const search = ($<HTMLInputElement>('#inventoryProductSearch')?.value ?? '').trim().toLowerCase();
@@ -1026,7 +1011,7 @@ $('#supplierModal')?.addEventListener('click', (event) => { if ((event.target as
 $('#suppliersTable')?.addEventListener('click', async (event) => {
 
   const target = event.target as HTMLElement;
-  
+
 const remove = target.closest<HTMLButtonElement>(
   '[data-delete-supplier]'
 );
@@ -1089,7 +1074,7 @@ if (remove) {
   }
   const edit = target.closest<HTMLButtonElement>('[data-edit-supplier]');
   if (edit) { const supplier = suppliers.find((entry) => entry.id === edit.dataset.editSupplier); if (supplier) openSupplierEditor(supplier); return; }
-  
+
   const status = target.closest<HTMLButtonElement>(
     '[data-toggle-supplier]'
   );
@@ -1137,7 +1122,6 @@ $('#suppliersPagination')?.addEventListener('click', (event) => {
   supplierPage += button.dataset.supplierPage === 'next' ? 1 : -1;
   renderSuppliers();
 });
-
 
 $<HTMLFormElement>('#supplierForm')?.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -1309,7 +1293,6 @@ $('#categoriesPagination')?.addEventListener('click', (event) => {
   renderCategories();
 });
 
-
 $<HTMLFormElement>('#categoryForm')?.addEventListener('submit', async (event) => {
   event.preventDefault();
 
@@ -1394,7 +1377,6 @@ $<HTMLFormElement>('#categoryForm')?.addEventListener('submit', async (event) =>
   }
 });
 
-
 function openUserEditor(user?: User) {
   if (!isAdmin()) return;
   const form = $<HTMLFormElement>('#userForm');
@@ -1467,7 +1449,6 @@ $<HTMLFormElement>('#userForm')?.addEventListener('submit', async (event) => {
   const active = $<HTMLInputElement>('#userActive').checked;
   const existing = users.find((user) => user.id === id);
 
-  // Adding users from the browser is not supported (needs the Supabase dashboard).
   if (!existing) {
     return setModalMsg(
       'userFormMessage',
@@ -1547,7 +1528,6 @@ document.querySelectorAll<HTMLButtonElement>('.toggle button').forEach((btn) =>
     msg.textContent = '';
   }));
 
-
 $<HTMLFormElement>('#form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const sku = $<HTMLInputElement>('#sku').value.trim().toUpperCase();
@@ -1555,8 +1535,6 @@ $<HTMLFormElement>('#form').addEventListener('submit', async (e) => {
   const qty = Math.floor(Number($<HTMLInputElement>('#qty').value));
   const note = $<HTMLInputElement>('#note').value.trim();
   if (!sku || !(qty > 0)) return say('Enter a SKU and a quantity above zero.');
-
-  
 
 let it = items.find((i) => i.sku === sku);
 let freeSlot: number | undefined;
@@ -1623,7 +1601,6 @@ if (it) {
   $<HTMLInputElement>('#qty').value = '1'; $<HTMLInputElement>('#note').value = '';
 });
 
-/* 3D tilt on panels */
 if (!still) document.querySelectorAll<HTMLElement>('.tilt').forEach((el) => {
   el.addEventListener('pointermove', (e) => {
     const r = el.getBoundingClientRect();
@@ -1633,7 +1610,6 @@ if (!still) document.querySelectorAll<HTMLElement>('.tilt').forEach((el) => {
   el.addEventListener('pointerleave', () => (el.style.transform = ''));
 });
 
-/* ---------- Sales workspace ---------- */
 let cart: Record<string, number> = {};
 let salesMode: 'pos' | 'returns' | 'recent' = 'pos';
 const moneylessDate = (value: string) => {
@@ -1826,7 +1802,7 @@ $<HTMLButtonElement>('#completeSale')?.addEventListener('click', async () => {
     return;
   }
   if (forDelivery) {
-    // Do not charge the customer if the delivery table has not been provisioned yet.
+
     const { error: deliveryCheckError } = await supabase.from('deliveries').select('id').limit(1);
     if (deliveryCheckError) {
       setSalesMessage('saleMessage', `Delivery tracking is not configured: ${deliveryCheckError.message}. Check that your Supabase project has a deliveries table and access policy.`);
@@ -1905,7 +1881,7 @@ $<HTMLButtonElement>('#completeSale')?.addEventListener('click', async () => {
       createdAt: now, updatedAt: now,
     });
     if (deliverySaveError) {
-      // Preserve the order details for recovery; never submit the sale a second time.
+
       localStorage.setItem('wh-pending-delivery-recovery', JSON.stringify({ saleId: sale.id, orderReference: sale.reference, customer, address, contact, targetDate, deliveryNotes }));
     }
   }
@@ -1948,7 +1924,6 @@ $<HTMLButtonElement>('#completeSale')?.addEventListener('click', async () => {
   );
 });
 
-
 $('#salesHistory')?.addEventListener('click', async (event) => {
   const button = (event.target as HTMLElement).closest<HTMLButtonElement>(
     '[data-return-sale][data-return-sku]'
@@ -1990,7 +1965,6 @@ $('#salesHistory')?.addEventListener('click', async (event) => {
     return;
   }
 
-  // Prevent duplicate clicks while the database request is running.
   button.disabled = true;
 
   try {
@@ -2009,8 +1983,6 @@ $('#salesHistory')?.addEventListener('click', async (event) => {
       return;
     }
 
-    // The database recorded the return request; stock is restored only after Admin approval.
-    // Reload the authoritative data instead of incrementing local stock. 
     await Promise.all([
       loadProductsFromSupabase(),
       loadInventoryHistoryFromSupabase(),
@@ -2040,7 +2012,6 @@ $('#salesHistory')?.addEventListener('click', async (event) => {
     button.disabled = false;
   }
 });
-
 
 $('#returnRegister')?.addEventListener('click', async (event) => {
   const button = (event.target as HTMLElement).closest<HTMLButtonElement>(
@@ -2122,10 +2093,8 @@ void loadDeliveriesFromSupabase();
 renderUI();
 resize();
 
-// This module loads after authentication and may run after window.load.
 $('#loadingOverlay')?.classList.add('hidden');
 
-/* ---------- Logout ---------- */
 $('#logoutBtn')?.addEventListener('click', async () => {
   const button = $<HTMLButtonElement>('#logoutBtn');
   if (button.disabled) return;
@@ -2162,15 +2131,13 @@ $('#logoutBtn')?.addEventListener('click', async () => {
   }
 });
 
-/* ---------- Footer Nav Submenus ---------- */
 document.querySelectorAll<HTMLButtonElement>('.nav-item.has-submenu').forEach((btn) => {
   btn.addEventListener('click', (e) => {
-    e.stopPropagation(); // Prevent document click from immediately closing it
-    
+    e.stopPropagation();
+
     const group = btn.closest('.nav-group');
     const submenu = group?.querySelector('.nav-submenu');
-    
-    // Close other submenus
+
     document.querySelectorAll('.nav-submenu.open').forEach(openSub => {
       if (openSub !== submenu) {
         openSub.classList.remove('open');
@@ -2189,7 +2156,6 @@ document.querySelectorAll<HTMLButtonElement>('.nav-item.has-submenu').forEach((b
   });
 });
 
-// Close submenus when clicking outside
 document.addEventListener('click', (e) => {
   const target = e.target as HTMLElement;
   if (!target.closest('.nav-group')) {
@@ -2202,7 +2168,6 @@ document.addEventListener('click', (e) => {
   }
 });
 
-/* ---------- Navigation & Views ---------- */
 const dashboardView = $('#dashboardView');
 const movementView = $('#movementView');
 const settingsView = $('#settingsView');
@@ -2244,30 +2209,27 @@ function switchView(view: 'dashboard' | 'movement' | 'categories' | 'settings' |
   navUsers?.classList.toggle('active', view === 'users');
   salesNavGroup?.classList.toggle('active', view === 'sales');
   inventoryNavGroup?.classList.toggle('active', view === 'movement' || view === 'categories');
-  
+
   if (view === 'settings') {
-    // Populate username + role
+
     const session = JSON.parse(localStorage.getItem('wh-session') ?? 'null');
     const settingUser = $<HTMLElement>('#settingUser');
     const settingRole = $<HTMLElement>('#settingRole');
     if (settingUser && session?.username) settingUser.textContent = session.username;
     if (settingRole && session?.role)     settingRole.textContent = isAdmin() ? 'Admin' : 'Cashier';
 
-    // Populate password (masked by default)
-    // Password is never readable (Supabase stores it hashed). Always show dots.
     const passDisplay = $<HTMLElement>('#settingPassDisplay');
     if (passDisplay) passDisplay.textContent = '••••••••';
 
-    // Hide the reveal (eye) button, since there is nothing to reveal.
     const revealBtn = $<HTMLButtonElement>('#togglePassReveal');
     if (revealBtn) revealBtn.style.display = 'none';
   } else {
-    // Re-mask password when leaving settings
+
     const passDisplay = $<HTMLElement>('#settingPassDisplay');
     if (passDisplay) passDisplay.textContent = '••••••••';
-    if (view === 'dashboard') resize(); // Refresh the 3D canvas when returning to the dashboard.
+    if (view === 'dashboard') resize();
   }
-  // Sync URL hash
+
   if (view === 'settings') {
     if (window.location.hash !== '#settings') window.location.hash = '#settings';
   } else if (view === 'sales') {
@@ -2345,14 +2307,11 @@ document.querySelectorAll<HTMLAnchorElement>('[data-inventory-destination]').for
   group?.querySelector<HTMLButtonElement>('.nav-item.has-submenu')?.setAttribute('aria-expanded', 'false');
 }));
 
-
-
 $<HTMLButtonElement>('#backToDashboardBtn')?.addEventListener('click', (e) => {
   e.preventDefault();
   switchView('dashboard');
 });
 
-// Check URL hash on page load and on popstate/hashchange
 function checkInitialHash() {
   if (window.location.hash === '#settings') {
     switchView('settings');
@@ -2383,7 +2342,6 @@ function getSession(): { username: string; role: string } | null {
   try { return JSON.parse(localStorage.getItem('wh-session') ?? 'null'); } catch { return null; }
 }
 
-/* ---------- Settings Modals ---------- */
 function openModal(id: string) {
   $<HTMLDivElement>(`#${id}`)?.classList.add('open');
 }
@@ -2397,7 +2355,6 @@ function setModalMsg(msgId: string, text: string, isOk = false) {
   el.className = 'smodal-msg ' + (isOk ? 'ok' : 'err');
 }
 
-// Open/close wiring
 $('#openChangeUsername')?.addEventListener('click', () => {
   ($<HTMLFormElement>('#usernameForm'))?.reset();
   setModalMsg('unMsg', '');
@@ -2416,14 +2373,12 @@ $('#openChangePassword')?.addEventListener('click', () => {
 $('#closePasswordModal')?.addEventListener('click',  () => closeModal('passwordModal'));
 $('#cancelPasswordModal')?.addEventListener('click', () => closeModal('passwordModal'));
 
-// Close on backdrop click
 ['usernameModal', 'passwordModal'].forEach(id => {
   $<HTMLDivElement>(`#${id}`)?.addEventListener('click', (e) => {
     if ((e.target as HTMLElement).id === id) closeModal(id);
   });
 });
 
-/* ── Change Username ── */
 $<HTMLFormElement>('#usernameForm')?.addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -2458,7 +2413,6 @@ $<HTMLFormElement>('#usernameForm')?.addEventListener('submit', async (e) => {
       return setModalMsg('unMsg', 'Could not read your account. Please log in again.');
     }
 
-    // Check the current password by signing in with it.
     const { error: verifyError } = await supabase.auth.signInWithPassword({
       email: user.email,
       password: enteredPass,
@@ -2498,8 +2452,6 @@ $<HTMLFormElement>('#usernameForm')?.addEventListener('submit', async (e) => {
   }
 });
 
-/* ── Change Password ── */
-/* ── Change Password ── */
 $<HTMLFormElement>('#passwordForm')?.addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -2532,7 +2484,6 @@ $<HTMLFormElement>('#passwordForm')?.addEventListener('submit', async (e) => {
       return setModalMsg('pwMsg', 'Could not read your account. Please log in again.');
     }
 
-    // Check the current password by signing in with it.
     const { error: verifyError } = await supabase.auth.signInWithPassword({
       email,
       password: currentPass,

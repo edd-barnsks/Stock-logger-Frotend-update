@@ -1,4 +1,4 @@
-// SVG adaptation of the supplied Rack figure for the TypeScript login page.
+
 export function initLoginBackground() {
   const stage = document.getElementById('login-rack');
   const svg = stage?.querySelector('svg');
@@ -115,7 +115,7 @@ export function initLoginBackground() {
     previous = time;
     let mostOpen = 0;
     units.forEach((unit) => {
-      // Stagger a smooth ten-second open/close cycle through all eight drawers.
+
       const phase = (elapsed / 3 - unit.index / 10) * Math.PI * 2;
       unit.x = 30 * Math.pow((1 - Math.cos(phase)) / 2, 4);
       if (unit.x > units[mostOpen].x) mostOpen = unit.index;

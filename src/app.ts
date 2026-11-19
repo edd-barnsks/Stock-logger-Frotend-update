@@ -2,7 +2,6 @@ import './style.css';
 import { supabase } from './supabase';
 import { configureAccess } from './access';
 
-// Verify the account before initializing the dashboard or requesting its data.
 async function startApp(): Promise<void> {
   const { data, error } = await supabase.auth.getSession();
   if (error) throw error;

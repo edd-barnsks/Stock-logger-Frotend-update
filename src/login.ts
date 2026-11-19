@@ -17,10 +17,9 @@ function showError(msgId: string, text: string) {
   if (msgEl) {
     msgEl.textContent = text;
     msgEl.classList.add('error', 'visible');
-    
-    // Add a little shake effect (defined in CSS if needed, or just visual)
+
     msgEl.style.animation = 'none';
-    msgEl.offsetHeight; // trigger reflow
+    msgEl.offsetHeight;
     msgEl.style.animation = 'shake 0.4s ease';
   }
 }
@@ -81,7 +80,6 @@ async function signInForRole(
     return;
   }
 
-  // Supabase password authentication uses an email address.
   if (!identifier.includes('@')) {
     showError(messageId, 'Please use your registered email address.');
     return;
@@ -168,9 +166,6 @@ document.getElementById('adminForm')?.addEventListener('submit', (e) => {
   );
 });
 
-
-/* ── loading overlay ── */
-// Password recovery modal.
 const resetOverlay = document.getElementById('resetModal') as HTMLElement;
 const resetStep1   = document.getElementById('resetStep1') as HTMLElement;
 const resetStep2   = document.getElementById('resetStep2') as HTMLElement;
@@ -197,16 +192,13 @@ document.getElementById('forgotAdmin')?.addEventListener('click', openResetModal
 document.getElementById('closeResetModal')?.addEventListener('click', closeResetModal);
 document.getElementById('cancelResetModal')?.addEventListener('click', closeResetModal);
 
-// Close on backdrop click
 resetOverlay.addEventListener('click', (e) => {
   if (e.target === resetOverlay) closeResetModal();
 });
 
-// Close on Escape
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && resetOverlay.classList.contains('open')) closeResetModal();
 });
-
 
 const confirmResetButton = document.getElementById('confirmReset') as HTMLButtonElement;
 
@@ -258,8 +250,6 @@ confirmResetButton?.addEventListener('click', async () => {
 
 document.getElementById('closeResetSuccess')?.addEventListener('click', closeResetModal);
 
-
-// Load the saved drawer decoration after the login controls are initialized.
 void import('./login-background')
   .then(({ initLoginBackground }) => initLoginBackground())
   .catch((error: unknown) => {

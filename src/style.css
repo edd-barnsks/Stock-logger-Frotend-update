@@ -1,10 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
-/* ═══ WALLHACK-INSPIRED DESIGN SYSTEM ═══ */
-
 :root {
-  /* ── Light palette inspired by wallhack.com ── */
   --bg: #f2f0ed;
   --bg-subtle: #eae7e3;
   --panel: #ffffff;
@@ -16,20 +13,14 @@
   --muted: #68645f;
   --accent: #000000;
   --accent-soft: rgba(0,0,0,0.06);
-
-  /* ── Functional colors ── */
   --in: #1a1a1a;
   --in-bg: rgba(0,0,0,0.06);
   --out: #c43e2a;
   --out-bg: rgba(196,62,42,0.06);
   --success: #2d8a4e;
   --success-bg: rgba(45,138,78,0.06);
-
-  /* ── Typography ── */
   --mono: 'Space Mono', 'IBM Plex Mono', 'Courier New', monospace;
   --sans: 'IBM Plex Mono', 'Space Mono', monospace;
-
-  /* ── Spacing ── */
   --radius: 0px;
   --radius-sm: 0px;
 }
@@ -45,14 +36,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-/* ── Selection ── */
 ::selection {
   background: rgba(0,0,0,0.15);
   color: var(--text);
 }
-
-/* ═══ LAYOUT ═══ */
 .app {
   max-width: 1400px;
   margin: 0 auto;
@@ -85,8 +72,6 @@ h2 {
   text-transform: uppercase;
   color: var(--muted);
 }
-
-/* ── Stats ── */
 .stats { display: flex; gap: 2px; }
 .stat {
   background: var(--panel);
@@ -109,8 +94,6 @@ h2 {
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
-
-/* ═══ MAIN GRID ═══ */
 main {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -123,9 +106,6 @@ main {
   grid-template-columns: minmax(0, 1fr);
   gap: 16px;
 }
-
-/* ── Scrollbar ── */
-/* ═══ PANELS ═══ */
 .panel {
   background: var(--panel);
   border: 1px solid var(--line);
@@ -171,8 +151,6 @@ main {
   transition: opacity 0.15s;
   white-space: nowrap;
 }
-
-/* ═══ FORMS ═══ */
 form { display: grid; gap: 14px; }
 
 label {
@@ -203,8 +181,6 @@ button:focus-visible {
   outline: 2px solid var(--text);
   outline-offset: 2px;
 }
-
-/* ── Toggle ── */
 .toggle {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -232,8 +208,6 @@ button:focus-visible {
   background: var(--out);
   color: white;
 }
-
-/* ── Submit ── */
 .submit {
   border: none;
   padding: 12px;
@@ -248,13 +222,9 @@ button:focus-visible {
 .submit:hover { opacity: 0.85; }
 .submit.out { background: var(--out); color: white; }
 .submit:active { transform: translateY(1px); }
-
-/* ── Messages ── */
 .msg { margin: 0; min-height: 18px; font-size: 0.6875rem; letter-spacing: 0.04em; }
 .msg.err { color: var(--out); }
 .msg.ok { color: var(--success); }
-
-/* ═══ TABLES ═══ */
 .scroll {
   max-height: 260px;
   overflow: auto;
@@ -310,15 +280,11 @@ td.num {
 tbody tr.pick { cursor: pointer; }
 tbody tr.pick:hover { background: var(--accent-soft); }
 .empty { color: var(--muted); padding: 14px 8px; font-style: italic; }
-
-/* ═══ RESPONSIVE ═══ */
 @media (max-width: 900px) {
   .scene-wrap { height: auto; min-height: 340px; }
   .dashboard-data-grid { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) { .panel { transition: none; } }
-
-/* ═══ HEADER BRAND ═══ */
 .header-brand { display: flex; align-items: center; gap: 12px; }
 .header-logo-icon {
   width: 36px; height: 36px;
@@ -349,8 +315,6 @@ tbody tr.pick:hover { background: var(--accent-soft); }
   border-color: var(--out);
   background: var(--out-bg);
 }
-
-/* ═══ LOADING OVERLAY ═══ */
 .loading-overlay {
   position: fixed;
   inset: 0;
@@ -462,8 +426,6 @@ tbody tr.pick:hover { background: var(--accent-soft); }
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
-
-/* ═══ LAYOUT WRAPPER ═══ */
 .layout-wrapper {
   display: flex;
   flex-direction: column;
@@ -471,8 +433,6 @@ tbody tr.pick:hover { background: var(--accent-soft); }
   overflow: hidden;
   background: var(--bg);
 }
-
-/* ═══ GLOBAL FOOTER / NAV BAR ═══ */
 .global-footer {
   background: var(--panel);
   border-top: 1px solid var(--line);
@@ -586,13 +546,9 @@ tbody tr.pick:hover { background: var(--accent-soft); }
   margin: 0 auto;
   padding: 20px 24px;
 }
-
-/* ═══ ANIMATIONS ═══ */
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
-
-/* User management */
 .users-header {
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
   margin: -20px -24px 24px; padding: 12px 24px; min-height: 62px;
@@ -688,8 +644,6 @@ tbody tr.pick:hover { background: var(--accent-soft); }
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: none; }
 }
-
-/* ═══ SETTINGS VIEW ═══ */
 .settings-header {
   display: flex;
   align-items: center;
@@ -770,16 +724,12 @@ tbody tr.pick:hover { background: var(--accent-soft); }
   transition: opacity 0.2s;
 }
 .btn-danger:hover { opacity: 0.85; }
-
-/* ═══ GLOBAL SCROLLBAR ═══ */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--line); }
 ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
 ::-webkit-scrollbar-corner { background: var(--bg); }
 * { scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
-
-/* ═══ SALES / POS ═══ */
 .sales-header {
   align-items: flex-end;
   margin-bottom: 18px;
@@ -944,8 +894,6 @@ tbody tr.pick:hover { background: var(--accent-soft); }
   .return-line { align-items: flex-start; flex-direction: column; }
   .return-action { align-self: flex-end; }
 }
-
-/* ═══ SETTINGS MODALS ═══ */
 .settings-modal-overlay {
   position: fixed;
   inset: 0;
@@ -1092,8 +1040,6 @@ tbody tr.pick:hover { background: var(--accent-soft); }
 .btn-auth:hover { opacity: 0.85; }
 .btn-auth:active { transform: translateY(1px); }
 .btn-auth:disabled { opacity: 0.4; cursor: not-allowed; }
-
-/* Warehouse extensions — intentionally use the original monochrome design tokens. */
 .inventory-catalog-panel, .delivery-panel { padding: 20px; }
 .inventory-products { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
 .inventory-product-card { min-height: 244px; }
@@ -1140,8 +1086,6 @@ tbody tr.pick:hover { background: var(--accent-soft); }
   .inventory-products { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .delivery-modal .user-form-grid { grid-template-columns: 1fr; }
 }
-
-/* Keep restricted controls hidden until the verified profile grants access. */
 html:not([data-admin-access]) [data-admin-only] {
   display: none !important;
 }

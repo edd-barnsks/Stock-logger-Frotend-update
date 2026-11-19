@@ -1,14 +1,11 @@
 const fs = require('fs');
 let html = fs.readFileSync('index.html', 'utf8');
 
-// Replace styles
-html = html.replace(/<link href="https:\/\/fonts\.googleapis\.com\/css2\?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" \/>\r?\n\s*<style>[\s\S]*?<\/style>/, 
+html = html.replace(/<link href="https:\/\/fonts\.googleapis\.com\/css2\?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" \/>\r?\n\s*<style>[\s\S]*?<\/style>/,
 `<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />`);
 
-// Replace loading overlay
-html = html.replace(/<!-- Loading overlay -->[\s\S]*?<\/div>\r?\n  <\/div>/,
-`<!-- Loading overlay -->
-  <div id="loadingOverlay" class="loading-overlay">
+html = html.replace(/(?=<div id="loadingOverlay")[\s\S]*?<\/div>\r?\n  <\/div>/,
+`  <div id="loadingOverlay" class="loading-overlay">
     <div class="loading-card">
       <div class="loading-logo">
         <div class="loading-logo-icon">

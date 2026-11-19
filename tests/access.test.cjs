@@ -62,7 +62,6 @@ for (const role of ['admin', 'employee']) {
   });
 }
 
-// Exercise production functions without starting the unrelated WebGL scene.
 function dashboardFunctions(globals) {
   const source = ts.createSourceFile(
     'main.ts',
@@ -89,7 +88,7 @@ function dashboardFunctions(globals) {
 
 test('cashier cannot load or render admin data or open the user editor', async () => {
   const context = dashboardFunctions({ isAdmin: () => false });
-  // No database or DOM is supplied: any access would fail this test.
+
   await context.loadUsersFromSupabase();
   await context.loadAuditLogsFromSupabase();
   context.renderUsers();
@@ -162,7 +161,6 @@ for (const role of ['admin', 'employee']) {
   }
 }
 
-// Exercise the actual page entry point so role checks cannot be bypassed at startup.
 test('dashboard entry verifies roles before loading dashboard controls', () => {
   const html = readFileSync('app.html', 'utf8');
   assert.match(html, /<script type="module" src="\/src\/app\.ts"><\/script>/);

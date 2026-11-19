@@ -42,20 +42,17 @@ function showRecoveryForm() {
   resetPasswordForm.classList.remove('hidden');
 }
 
-// Listen for Supabase authentication events.
 supabase.auth.onAuthStateChange((event, session) => {
   if (event === 'PASSWORD_RECOVERY' && session) {
     showRecoveryForm();
     return;
   }
 
-  // Supabase has finished initializing without a recovery session.
   if (event === 'INITIAL_SESSION' && !recoverySessionReady) {
     showInvalidSession();
   }
 });
 
-// Handle password update.
 resetPasswordForm.addEventListener('submit', async (event) => {
   event.preventDefault();
 
@@ -106,7 +103,6 @@ resetPasswordForm.addEventListener('submit', async (event) => {
       return;
     }
 
-    // Clear only this browser's recovery session.
     await supabase.auth.signOut({ scope: 'local' });
 
     resetPasswordForm.classList.add('hidden');

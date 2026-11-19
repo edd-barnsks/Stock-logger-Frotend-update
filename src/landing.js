@@ -2,7 +2,6 @@ import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
 import './landing.css';
 
-/* ─── Lenis smooth scrolling ─── */
 const lenis = new Lenis({
   duration: 1.2,
   easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -16,14 +15,11 @@ function raf(time) {
 }
 requestAnimationFrame(raf);
 
-/* ─── Nav scroll effect ─── */
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
   nav?.classList.toggle('scrolled', window.scrollY > 20);
 }, { passive: true });
 
-
-/* ─── Mobile nav toggle ─── */
 window.toggleNav = function () {
   const links = document.getElementById('navLinks');
   const actions = document.getElementById('navActions') || document.querySelector('.nav-actions');
@@ -31,7 +27,6 @@ window.toggleNav = function () {
   actions?.classList.toggle('mobile-open');
 };
 
-/* ─── Modal helpers ─── */
 window.openModal = function (which) {
   const id = which === 'login' ? 'loginModal' : 'signupModal';
   document.getElementById(id)?.classList.add('open');
@@ -54,7 +49,6 @@ window.switchModal = function (fromId, toId) {
   setTimeout(() => document.getElementById(toId)?.classList.add('open'), 150);
 };
 
-/* Close on Escape */
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     document.querySelectorAll('.modal-overlay.open').forEach(el => {
@@ -65,7 +59,6 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-/* ─── Password show / hide ─── */
 window.togglePw = function (inputId, btnId) {
   const input = document.getElementById(inputId);
   const btn   = document.getElementById(btnId);
@@ -75,7 +68,6 @@ window.togglePw = function (inputId, btnId) {
   btn?.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
 };
 
-/* ─── Password strength ─── */
 window.checkStrength = function (val) {
   const fill  = document.getElementById('strengthFill');
   const label = document.getElementById('strengthLabel');
@@ -101,7 +93,6 @@ window.checkStrength = function (val) {
   label.style.color = lv.color;
 };
 
-/* ─── Auth handlers (localStorage mock) ─── */
 function setMsg(id, text, isError) {
   const el = document.getElementById(id);
   if (!el) return;
@@ -178,7 +169,6 @@ window.handleSignup = async function (e) {
   setTimeout(() => { window.location.href = 'app.html'; }, 1000);
 };
 
-/* ─── Stat counter animation ─── */
 function animateCounter(el) {
   const target = parseInt(el.dataset.target || '0', 10);
   const suffix = el.dataset.suffix || '';
@@ -193,7 +183,6 @@ function animateCounter(el) {
   requestAnimationFrame(step);
 }
 
-/* ─── Intersection Observer for reveal + counters ─── */
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -219,7 +208,6 @@ document.querySelectorAll('.feature-card, .step, .section-header, .stat-block, .
 
 document.querySelectorAll('.stat-num').forEach(el => counterObserver.observe(el));
 
-/* ─── Auto-reveal elements already in viewport ─── */
 document.querySelectorAll('.reveal').forEach(el => {
   const rect = el.getBoundingClientRect();
   if (rect.top < window.innerHeight) el.classList.add('visible');

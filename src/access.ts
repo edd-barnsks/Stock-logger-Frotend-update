@@ -1,4 +1,4 @@
-// Set only after app.ts verifies the active profile with Supabase.
+
 let adminAccess = false;
 
 export function configureAccess(role: 'admin' | 'employee'): void {

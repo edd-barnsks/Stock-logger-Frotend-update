@@ -5,7 +5,6 @@ const { test } = require('node:test');
 const vm = require('node:vm');
 const ts = require('typescript');
 
-// Execute the production entry points with browser and network dependencies stubbed.
 function executeEntry(file, globals, dependencies) {
   const source = readFileSync(resolve(__dirname, '..', file), 'utf8');
   const { outputText } = ts.transpileModule(source, {

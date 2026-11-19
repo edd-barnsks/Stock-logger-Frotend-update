@@ -12,14 +12,12 @@
 </head>
 <body>
 
-  <!-- Animated drawer background -->
   <div class="rack-backdrop" aria-hidden="true">
     <div id="login-rack" class="rack-stage">
       <svg class="rack-svg" viewBox="0 0 400 440"></svg>
     </div>
   </div>
 
-  <!-- Loading overlay -->
   <div id="loadingOverlay" class="loading-overlay hidden">
     <div class="loading-inner">
       <div class="loading-icon-wrap">
@@ -42,13 +40,11 @@
         <p class="auth-subtitle">Your inventory. Everything in order.</p>
       </header>
 
-      <!-- Tab switcher -->
       <div class="tab-switcher" role="tablist" aria-label="Sign-in role">
         <button id="tabAdmin" class="tab-btn active" role="tab" aria-selected="true" aria-controls="panelAdmin">Admin</button>
         <button id="tabCashier" class="tab-btn" role="tab" aria-selected="false" aria-controls="panelCashier">Cashier</button>
       </div>
 
-      <!-- ── Cashier Panel ── -->
       <div id="panelCashier" class="panel-hidden" role="tabpanel" aria-labelledby="tabCashier">
         <form id="employeeForm" autocomplete="off" novalidate>
           <div class="form-group">
@@ -69,12 +65,11 @@
           <button type="submit" id="empBtn" class="auth-submit">
             <span id="empBtnText">Sign in as Cashier</span><span class="submit-arrow" aria-hidden="true">&#8599;</span>
           </button>
-          
+
           <button type="button" class="auth-forgot" id="forgotCashier">Forgot password?</button>
         </form>
       </div>
 
-      <!-- ── Admin Panel ── -->
       <div id="panelAdmin" role="tabpanel" aria-labelledby="tabAdmin">
         <form id="adminForm" autocomplete="off" novalidate>
           <div class="form-group">
@@ -95,7 +90,7 @@
           <button type="submit" id="adminBtn" class="auth-submit">
             <span id="adminBtnText">Sign in as Admin</span><span class="submit-arrow" aria-hidden="true">&#8599;</span>
           </button>
-          
+
           <button type="button" class="auth-forgot" id="forgotAdmin">Forgot password?</button>
         </form>
       </div>
@@ -104,24 +99,21 @@
     </div>
   </main>
 
-  <!-- Corner label -->
   <div class="corner-label">StockLogger v1.0</div>
 
-  <!-- ── Reset Password Modal ── -->
   <div id="resetModal" class="reset-overlay" role="dialog" aria-modal="true" aria-labelledby="resetModalTitle">
     <div class="reset-card">
       <button class="reset-close" id="closeResetModal" aria-label="Close">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
-      
+
       <div class="reset-icon">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="0" ry="0"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
       </div>
-      
+
       <h2 id="resetModalTitle" class="reset-title">Reset Password</h2>
       <p class="reset-desc">Enter your registered email address. We'll send you a link to reset your password.</p>
 
-      <!-- Step 1 -->
       <div id="resetStep1">
         <input type="email" id="resetUsername" class="reset-input" placeholder="Enter your registered email" autocomplete="email" />
         <p id="resetMsg" class="reset-msg" role="status"></p>
@@ -131,7 +123,6 @@
         </div>
       </div>
 
-      <!-- Step 2: success -->
       <div id="resetStep2" class="hidden">
         <div class="reset-success-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>

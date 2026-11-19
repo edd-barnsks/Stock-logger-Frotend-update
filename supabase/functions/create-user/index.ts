@@ -25,7 +25,6 @@ Deno.serve(async (request: Request) => {
       ?.match(/^Bearer\s+(\S+)$/i)?.[1];
     if (!token) return reply(401, { error: 'Please sign in again.' });
 
-    // This key stays in Supabase's server environment, never in the Vite app.
     const admin = createClient(
       Deno.env.get('SUPABASE_URL')!,
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
@@ -108,7 +107,6 @@ Deno.serve(async (request: Request) => {
       });
     }
 
-    // Upsert also supports projects that create a default profile with an Auth trigger.
     const { error: profileError } = await admin.from('profiles').upsert(
       {
         id: created.user.id,

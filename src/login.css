@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-
     :root {
       --bg: #f2f0ed;
       --bg-subtle: #eae7e3;
@@ -41,8 +40,6 @@ body {
   overflow-x: hidden;
   padding: 48px max(32px, calc((100vw - 1120px) / 2));
 }
-
-/* The rack occupies the right half while the form stays clear and readable. */
 .rack-backdrop {
   position: fixed;
   inset: 0 0 0 46%;
@@ -109,10 +106,6 @@ body {
     padding: 0;
   }
 }
-
-
-
-    /* Loading overlay */
     .loading-overlay {
       position: fixed;
       inset: 0;
@@ -156,8 +149,6 @@ body {
       text-transform: uppercase;
       letter-spacing: 0.1em;
     }
-
-/* Reference-inspired, open login layout. */
 .auth-card {
   width: 100%;
   max-width: 440px;
@@ -327,11 +318,7 @@ button:focus-visible { outline: 2px solid var(--text); outline-offset: 5px; }
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
   .form-group:focus-within { transform: none; }
 }
-
-    /* Panel visibility */
     .panel-hidden { display: none; }
-
-    /* ── Reset Modal ── */
     .reset-overlay {
       position: fixed;
       inset: 0;
@@ -454,8 +441,6 @@ button:focus-visible { outline: 2px solid var(--text); outline-offset: 5px; }
       transition: opacity 0.2s;
     }
     .reset-btn-confirm:hover { opacity: 0.85; }
-
-    /* Success step */
     .reset-success-icon {
       width: 44px; height: 44px;
       border: 1px solid rgba(45,138,78,0.3);
@@ -500,8 +485,6 @@ button:focus-visible { outline: 2px solid var(--text); outline-offset: 5px; }
       20%, 60% { transform: translateX(-4px); }
       40%, 80% { transform: translateX(4px); }
     }
-
-    /* ── Corner label ── */
     .corner-label {
       position: fixed;
       bottom: 20px;
