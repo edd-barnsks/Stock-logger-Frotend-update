@@ -1,3 +1,0 @@
-[functions.create-user]
-# The handler validates the caller's JWT with Auth before checking their profile.
-verify_jwt = false
