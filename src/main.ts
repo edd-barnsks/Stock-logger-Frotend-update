@@ -2109,7 +2109,7 @@ $('#logoutBtn')?.addEventListener('click', async () => {
   overlay?.classList.add('is-signing-out');
   overlay?.classList.remove('hidden');
   if (layout) layout.inert = true;
-  const minimumLoadingTime = new Promise<void>((resolve) => window.setTimeout(resolve, 3000));
+  const minimumLoadingTime = new Promise<void>((resolve) => window.setTimeout(resolve, 2000));
   try {
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
