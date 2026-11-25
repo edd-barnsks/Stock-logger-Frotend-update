@@ -1446,15 +1446,10 @@ $<HTMLFormElement>('#userForm')?.addEventListener('submit', async (event) => {
   const firstName = $<HTMLInputElement>('#userFirstName').value.trim();
   const lastName = $<HTMLInputElement>('#userLastName').value.trim();
   const role = $<HTMLSelectElement>('#userRole').value as User['role'];
+  const email = $<HTMLInputElement>('#userEmail').value.trim().toLowerCase();
+  const password = $<HTMLInputElement>('#userPassword').value;
   const active = $<HTMLInputElement>('#userActive').checked;
   const existing = users.find((user) => user.id === id);
-
-  if (!existing) {
-    return setModalMsg(
-      'userFormMessage',
-      'New users must be created in Supabase (Authentication → Users). They will show up here automatically.'
-    );
-  }
 
   if (username.length < 3) {
     return setModalMsg('userFormMessage', 'Username must be at least 3 characters.');
@@ -1464,8 +1459,16 @@ $<HTMLFormElement>('#userForm')?.addEventListener('submit', async (event) => {
     return setModalMsg('userFormMessage', 'That username is already in use.');
   }
 
+  if (!firstName || !lastName) {
+    return setModalMsg('userFormMessage', 'Enter the user’s first and last name.');
+  }
+
+  if (!existing && (!email || password.length < 6)) {
+    return setModalMsg('userFormMessage', 'Enter a valid email and a password of at least 6 characters.');
+  }
+
   const currentSession = getSession();
-  const isSelf = currentSession?.username === existing.username;
+  const isSelf = existing ? currentSession?.username === existing.username : false;
 
   if (isSelf && !active) {
     return setModalMsg('userFormMessage', 'You cannot deactivate the account you are currently using.');
@@ -1478,8 +1481,56 @@ $<HTMLFormElement>('#userForm')?.addEventListener('submit', async (event) => {
   const submitButton = $<HTMLFormElement>('#userForm')
     .querySelector<HTMLButtonElement>('button[type="submit"]');
   if (submitButton) submitButton.disabled = true;
+  if (submitButton && !existing) submitButton.textContent = 'Creating...';
 
   try {
+    if (!existing) {
+      // The Edge Function checks the signed-in user's admin status and safely
+      // uses the service-role key on Supabase's server (never in this browser).
+      const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError || !sessionData.session) {
+        return setModalMsg('userFormMessage', 'Your session has expired. Sign in again before adding a user.');
+      }
+
+      const { data, error } = await supabase.functions.invoke('create-user', {
+        body: { email, username, firstName, lastName, password, role, active },
+        headers: { Authorization: `Bearer ${sessionData.session.access_token}` },
+      });
+
+      if (error || data?.error) {
+        // FunctionsHttpError has a response body explaining validation,
+        // duplicate-email, and admin-permission failures.
+        let detail = typeof data?.error === 'string' ? data.error : error?.message ?? 'Unknown error';
+        const response = error && 'context' in error ? error.context : null;
+        if (response instanceof Response) {
+          try {
+            const payload = await response.clone().json();
+            if (typeof payload?.error === 'string') detail = payload.error;
+          } catch { /* Use the SDK error text when the response has no JSON body. */ }
+          if (response.status === 404) {
+            detail = 'The create-user Edge Function has not been deployed in Supabase.';
+          }
+        }
+        return setModalMsg('userFormMessage', `Could not add user: ${detail}`);
+      }
+
+      if (!data?.user?.id) {
+        return setModalMsg('userFormMessage', 'Supabase did not confirm account creation. Check Authentication → Users before retrying.');
+      }
+
+      await loadUsersFromSupabase();
+      recordAudit('Users', 'Created', `User ${username} (${role === 'admin' ? 'Admin' : 'Cashier'}) was created.`);
+      save();
+      closeModal('userModal');
+
+      const message = $('#usersMessage');
+      if (message) {
+        message.textContent = `User ${username} created successfully. They can now sign in with their email and password.`;
+        message.className = 'users-message ok';
+      }
+      return;
+    }
+
     const { error } = await supabase
       .from('profiles')
       .update({
@@ -1511,9 +1562,13 @@ $<HTMLFormElement>('#userForm')?.addEventListener('submit', async (event) => {
     message.className = 'users-message ok';
   } catch (error) {
     console.error('Unexpected user save error:', error);
-    setModalMsg('userFormMessage', 'Something went wrong while saving the user.');
+    const detail = error instanceof Error ? error.message : 'Please try again.';
+    setModalMsg('userFormMessage', `Something went wrong while saving the user: ${detail}`);
   } finally {
-    if (submitButton) submitButton.disabled = false;
+    if (submitButton) {
+      submitButton.disabled = false;
+      if (!existing) submitButton.textContent = 'Add user';
+    }
   }
 });
 
